@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         binding.btn_get.setOnClickListener{get()}
         binding.btn_refresh.setOnClickListener{refresh()}
 
+
+        NotificationCenter.instance.register(this)
+
     }
 
     private fun clear()
@@ -41,6 +44,11 @@ class MainActivity : AppCompatActivity() {
             list.add(textView)
             binding.layout_list.addView(textView)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        NotificationCenter.instance.unresgister(this)
     }
 
 }
