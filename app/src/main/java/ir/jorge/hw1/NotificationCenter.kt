@@ -3,18 +3,15 @@ package ir.jorge.hw1
 import android.app.Activity
 import android.util.EventLog
 
-class NotificationCenter
-{
-    val dataLoaded : EventLog.Event? = null
+class NotificationCenter {
+    val dataLoaded: EventLog.Event? = null
     private val channels = ArrayList<Activity>()
 
-    public fun register(a : Activity)
-    {
+    public fun register(a: Activity) {
         channels.add(a)
     }
 
-    public fun unresgister(a : Activity)
-    {
+    public fun unresgister(a: Activity) {
         channels.remove(a)
     }
 

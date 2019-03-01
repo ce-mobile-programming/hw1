@@ -1,48 +1,46 @@
 package ir.jorge.hw1
 
-import android.support.v7.app.AppCompatActivity
+import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import ir.jorge.hw1.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
-    var binding : ActivityMainBinding = null
+    lateinit var binding: ActivityMainBinding
     val list = ArrayList<TextView>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-
-        binding.btn_clear.setOnClickListener{ clear() }
-        binding.btn_get.setOnClickListener{get()}
-        binding.btn_refresh.setOnClickListener{refresh()}
+        binding.btnClear.setOnClickListener { clear() }
+        binding.btnGet.setOnClickListener { get() }
+        binding.btnRefresh.setOnClickListener { refresh() }
 
 
         NotificationCenter.instance.register(this)
 
     }
 
-    private fun clear()
-    {
-       binding.layout_list.removeAllViews()
+    private fun clear() {
+        binding.layoutList.removeAllViews()
     }
 
-    private fun refresh()
-    {
+    private fun refresh() {
         for (view in list)
-            binding.layout_list.addAllViews(view)
+            binding.layoutList.addView(view)
     }
 
-    private fun get()
-    {
+    private fun get() {
         val size = list.size
         for (i in 1..10) {
             val textView = TextView(this)
-            textView.text = (size+i).toString()
+            textView.text = (size + i).toString()
             list.add(textView)
-            binding.layout_list.addView(textView)
+            binding.layoutList.addView(textView)
         }
     }
 
