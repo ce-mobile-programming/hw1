@@ -1,18 +1,23 @@
 package ir.jorge.hw1.domain
 
-import ir.jorge.hw1.system.systemFactory
+import ir.jorge.hw1.system.FileSystem
 
 interface DomainFactory {
-    fun newMessageController(): MessageController
+    fun newMessageController(uiRunner: UIRunner, fileSystem: FileSystem): MessageController
     fun newNotificationCenter(): NotificationCenter
 }
 
-object DomainFactoryImpl : DomainFactory {
-    override fun newMessageController(): MessageController =
-            MessageController(StorageManager(systemFactory.newFileSystem()), ConnectionManager())
+private object DomainFactoryImpl : DomainFactory {
+    override fun newMessageController(uiRunner: UIRunner, fileSystem: FileSystem): MessageController =
+            MessageControllerImpl(
+                    StorageManagerImpl(fileSystem),
+                    ConnectionManagerImpl,
+                    NotificationCenterImpl,
+                    uiRunner
+            )
 
     override fun newNotificationCenter(): NotificationCenter =
-            NotificationCenter()
+            NotificationCenterImpl
 }
 
 var domainFactory: DomainFactory = DomainFactoryImpl

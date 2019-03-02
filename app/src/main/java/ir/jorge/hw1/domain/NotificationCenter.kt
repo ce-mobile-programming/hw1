@@ -4,39 +4,44 @@ interface Observer {
     fun update()
 }
 
-enum class EventType {
-    DATA_LOADED
-}
+data class State(val isLoading: Boolean, val numbers: List<Int>)
 
 interface NotificationCenter {
-    fun addObserver(observer: Observer, eventType: EventType)
+    fun addObserver(observer: Observer)
     fun removeObserver(observer: Observer)
-    fun getState(): List<Int>
-    fun setState(state: List<Int>)
+    fun getState(): State
+    fun setNumbersState(state: List<Int>)
+    fun setLoadingState(isLoading: Boolean)
 }
 
-private class NotificationCenterImpl : NotificationCenter {
-    private val dataLoadedObservers: ArrayList<Observer> = ArrayList()
+object NotificationCenterImpl : NotificationCenter {
+    private val observers: ArrayList<Observer> = ArrayList()
+    private var state: State = State(false, listOf())
 
-    override fun addObserver(observer: Observer, eventType: EventType) {
-        TODO("not implemented")
-    }
-
-    override fun getState(): List<Int> {
-        TODO("not implemented")
-    }
-
-    override fun setState(state: List<Int>) {
-        TODO("not implemented")
+    override fun addObserver(observer: Observer) {
+        observers.add(observer)
     }
 
     override fun removeObserver(observer: Observer) {
-        TODO("not implemented")
+        observers.remove(observer)
+    }
+
+    override fun getState(): State {
+        return state
+    }
+
+    override fun setNumbersState(numbers: List<Int>) {
+        state = State(state.isLoading, numbers)
+        notifyObservers()
+    }
+
+    override fun setLoadingState(isLoading: Boolean) {
+        state = State(isLoading, state.numbers)
+        notifyObservers()
     }
 
     private fun notifyObservers() {
-
+        observers.forEach { it.update() }
     }
 }
 
-fun NotificationCenter(): NotificationCenter = NotificationCenterImpl()

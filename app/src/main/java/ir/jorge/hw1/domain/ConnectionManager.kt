@@ -1,14 +1,9 @@
 package ir.jorge.hw1.domain
 
 
-interface ConnectionManager {
-    fun load(min: Int): List<Int>
-}
-
-private class ConnectionManagerImpl : ConnectionManager {
-    override fun load(min: Int): List<Int> {
-        TODO("not implemented")
+object ConnectionManagerImpl : DataLoader {
+    override fun load(currentMax: Int): List<Int> {
+        Thread.sleep(100)
+        return (1..10).map { it + currentMax }
     }
 }
-
-fun ConnectionManager(): ConnectionManager = ConnectionManagerImpl()
