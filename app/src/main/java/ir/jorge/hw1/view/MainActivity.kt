@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import ir.jorge.hw1.R
 import ir.jorge.hw1.databinding.ActivityMainBinding
 import ir.jorge.hw1.domain.*
 import ir.jorge.hw1.system.systemFactory
