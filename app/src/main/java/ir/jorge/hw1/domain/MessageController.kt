@@ -24,7 +24,7 @@ class MessageControllerImpl(
     }
 
     private fun findDataLoader(fromCache: Boolean): DataLoader {
-        return if (fromCache) storageManager else connectionManager
+        return if (!fromCache) storageManager else connectionManager
     }
 
     fun findExecutor(fromCache: Boolean): ExecutorService {
