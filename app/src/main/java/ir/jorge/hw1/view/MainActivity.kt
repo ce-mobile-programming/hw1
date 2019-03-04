@@ -4,24 +4,28 @@ import android.app.ProgressDialog
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.TextView
 import ir.jorge.hw1.R
 import ir.jorge.hw1.databinding.ActivityMainBinding
 import ir.jorge.hw1.domain.*
 import ir.jorge.hw1.system.systemFactory
 
 
+@Suppress("DEPRECATION")
 class MainActivity : UIRunner, Observer, AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var messageController: MessageController
     private lateinit var notificationCenter: NotificationCenter
     private lateinit var progressDialog: ProgressDialog
+    private var textList = ArrayList<TextView>()
+    private var numberList = ArrayList<Int>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        messageController = domainFactory.newMessageController(this, systemFactory.newFileSystem())
+        messageController = domainFactory.newMessageController(this, systemFactory.newFileSystem(), this)
         notificationCenter = domainFactory.newNotificationCenter()
         notificationCenter.addObserver(this)
         progressDialog = newProgressBar()
@@ -40,6 +44,7 @@ class MainActivity : UIRunner, Observer, AppCompatActivity() {
         binding.btnClear.setOnClickListener { clear() }
         binding.btnGet.setOnClickListener { get() }
         binding.btnRefresh.setOnClickListener { refresh() }
+
     }
 
 
@@ -79,8 +84,13 @@ class MainActivity : UIRunner, Observer, AppCompatActivity() {
     }
 
     private fun updateList(numbers: List<Int>) {
-        // TODO: If number does not exist in list but is displayed, remove it.
-        // TODO: If number exists in the list and is not displayed, display it.
+        binding.layoutList.removeAllViews()
+        for (num in numbers)
+        {
+            val item = TextView(this)
+            item.text = num.toString()
+            binding.layoutList.addView(item)
+        }
     }
 
     override fun runOnUiThread(someFun: () -> Unit) {
