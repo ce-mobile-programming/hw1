@@ -1,12 +1,14 @@
 package ir.jorge.hw1.system
 
+import android.content.Context
+
 
 interface SystemFactory {
-    fun newFileSystem(): FileSystem
+    fun newFileSystem(context: Context): FileSystem
 }
 
 private object SystemFactoryImpl : SystemFactory {
-    override fun newFileSystem(): FileSystem = FileSystem()
+    override fun newFileSystem(context: Context): FileSystem = AndroidFileSystem(context)
 }
 
 var systemFactory: SystemFactory = SystemFactoryImpl

@@ -17,15 +17,13 @@ class MainActivity : UIRunner, Observer, AppCompatActivity() {
     private lateinit var messageController: MessageController
     private lateinit var notificationCenter: NotificationCenter
     private lateinit var progressDialog: ProgressDialog
-    private var textList = ArrayList<TextView>()
-    private var numberList = ArrayList<Int>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        messageController = domainFactory.newMessageController(this, systemFactory.newFileSystem(), this)
+        messageController = domainFactory.newMessageController(this, systemFactory.newFileSystem(this))
         notificationCenter = domainFactory.newNotificationCenter()
         notificationCenter.addObserver(this)
         progressDialog = newProgressBar()
@@ -85,10 +83,9 @@ class MainActivity : UIRunner, Observer, AppCompatActivity() {
 
     private fun updateList(numbers: List<Int>) {
         binding.layoutList.removeAllViews()
-        for (num in numbers)
-        {
+        numbers.forEach {
             val item = TextView(this)
-            item.text = num.toString()
+            item.text = it.toString()
             binding.layoutList.addView(item)
         }
     }
