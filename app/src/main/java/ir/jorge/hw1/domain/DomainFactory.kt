@@ -1,17 +1,16 @@
 package ir.jorge.hw1.domain
 
-import android.content.Context
 import ir.jorge.hw1.system.FileSystem
 
 interface DomainFactory {
-    fun newMessageController(uiRunner: UIRunner, fileSystem: FileSystem, context: Context): MessageController
+    fun newMessageController(uiRunner: UIRunner, fileSystem: FileSystem): MessageController
     fun newNotificationCenter(): NotificationCenter
 }
 
 private object DomainFactoryImpl : DomainFactory {
-    override fun newMessageController(uiRunner: UIRunner, fileSystem: FileSystem, context: Context): MessageController =
+    override fun newMessageController(uiRunner: UIRunner, fileSystem: FileSystem): MessageController =
             MessageControllerImpl(
-                    StorageManagerImpl(fileSystem, context),
+                    StorageManagerImpl(fileSystem),
                     ConnectionManagerImpl,
                     NotificationCenterImpl,
                     uiRunner
